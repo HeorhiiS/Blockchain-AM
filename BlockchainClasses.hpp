@@ -13,19 +13,30 @@ private:
   /* data */
   int index;
   size_t previousHash;
-  size_t blockHash;
+  time_t creationtime = time(NULL);
   size_t computeHash();
+  size_t blockHash = computeHash();
 
 public:
-  Block (int i, TransactionINF inf, size_t prevHash, time_t tstamp);
 
   TransactionINF info; // holds transation's info
 
-  ///get previous size_t
+  Block (int i, TransactionINF inf, size_t prevHash){
+    index = i;
+    previousHash = prevHash;
+    info = inf
+
+  }
+  void printBlock(); // prints contents of the block
+
+  // get previous size_t
   size_t getPrevHash();
 
   // get current size_t
   size_t getBlockHash();
+
+  // returns the index of a block
+  int index();
 
   bool hashCheck(); // to prevent malicious use check if hashes are valid
 };
@@ -52,13 +63,13 @@ public:
 class Blockchain {
 private:
   /* data */
-  Block Genesis(); // genesis block (fisrt block on a blockchain)
+  void Genesis(); // genesis block (fisrt block on a blockchain)
   vector<Block> mainchain; // vector to hold chain, alternatively define double linked list with no insertion in the middle
                           // however I still find vectors are better suited for the task unless specifi custom features are needed
 public:
   Blockchain ();
 
-  vector<Block> chain(); // returns the blockchain 
+  vector<Block> chain(); // returns the blockchain
 
   bool checkChain(); // checks if blockchain is valid
 
@@ -66,9 +77,7 @@ public:
 
   Block lastEntry(); // returns last block
 
-  void newBlock(); // adds a new block
-
-  void printLastBlock(); // prints public contents of the last block
+  void newBlock(Block b); // adds a new block
 
   //virtual ~Blockchain ();
 };
