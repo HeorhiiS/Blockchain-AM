@@ -28,11 +28,19 @@ string Block::getBlockHash(){
 }
 
 bool Block::hashCheck(){
-  return (computeHash()== getBlockHash());
+  return (computeHash() == getBlockHash());
+}
+
+void Block::mine(int difficulty) {
+  while (blockHash.substr(0,difficulty) != string x(difficulty,"0")) {
+    nonce++;
+    blockHash = computeHash();
+  }
+  cout << "Block mined: "<<blockHash<< '\n';
 }
 
 string Block::computeHash(){
-string src_str = (to_string(index)+data+creationtime+previousHash);
+string src_str = (to_string(index)+data+creationtime+previousHash+to_string(nonce));
 string hash_hex_str;
 picosha2::hash256_hex_string(src_str, hash_hex_str);
 return hash_hex_str;

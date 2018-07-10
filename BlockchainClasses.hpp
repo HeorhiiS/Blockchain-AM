@@ -18,6 +18,7 @@ private:
   string computeHash();
   string data;
   string blockHash = computeHash();
+  int nonce = 0;
   friend class Blockchain;
 
 public:
@@ -38,6 +39,8 @@ public:
   int index();
 
   bool hashCheck(); // to prevent malicious use check if hashes are valid
+
+  void mine(int difficulty);
 };
 
 class Blockchain {
