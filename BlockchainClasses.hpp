@@ -1,63 +1,43 @@
-// USE SHA256 when possible, use time_t for timestamp and size_t for size_t
+// USE SHA256 when possible
 
 #include <iostream>
 #include <string>
-#include <ctime>
 #include <vector>
 // class declarations go here
 
 using namespace std;
 
+// class Blockchain;
+
 class Block {
 private:
   /* data */
   int index;
-  size_t previousHash;
-  time_t creationtime = time(NULL);
-  size_t computeHash();
-  size_t blockHash = computeHash();
+  string previousHash;
+  string creationtime;
+  string computeHash();
+  string data;
+  string blockHash = computeHash();
+  friend class Blockchain;
 
 public:
-
-  TransactionINF info; // holds transation's info
-
-  Block (int i, TransactionINF inf, size_t prevHash){
+  Block (int i, string prevHash, string timestamp, sting inf){  // data in string represents single transaction packed into a single string
     index = i;
     previousHash = prevHash;
-    info = inf
-
+    data = inf;
+    creationtime = timestamp;
   }
-  void printBlock(); // prints contents of the block
 
-  // get previous size_t
-  size_t getPrevHash();
+  // get previous string
+  string getPrevHash();
 
-  // get current size_t
-  size_t getBlockHash();
+  // get current string
+  string getBlockHash();
 
   // returns the index of a block
   int index();
 
   bool hashCheck(); // to prevent malicious use check if hashes are valid
-};
-
-
-class TransactionINF {
-
-public:
-  int transactionVal;
-  string KeySender;
-  string KeyReceiver;
-  time_t timestamp;
-  TransactionINF (){
-    cout << "NO DATA FOR TRANSACTION" << '\n';
-  };
-  TransactionINF(int x, string keyS, string keyR, time_t timeS ){
-    transactionVal = x;
-    KeySender = keyS;
-    KeyReceiver = keyR;
-    timestamp = timeS;
-  }
 };
 
 class Blockchain {
