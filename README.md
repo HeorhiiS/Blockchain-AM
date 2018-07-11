@@ -1,3 +1,3 @@
 # Blockchain-AM
 
-#### Very basic, conceptual implementation of a blockchain </br>
+#### Very basic implementation of a blockchain </br>
