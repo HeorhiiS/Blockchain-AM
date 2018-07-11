@@ -7,23 +7,22 @@
 
 using namespace std;
 
-// class Blockchain;
+class Blockchain;
 
 class Block {
 private:
   /* data */
-  int index;
+  // no specific index needed as index of a block is its position in the chain
   string previousHash;
   string creationtime;
   string computeHash();
-  string data;
+  Transaction data;
   string blockHash = computeHash();
-  int nonce = 0;
+  int nonce= 0;
   friend class Blockchain;
 
 public:
-  Block (int i, string prevHash, string timestamp, sting inf){  // data in string represents single transaction packed into a single string
-    index = i;
+  Block (string prevHash, string timestamp, Transaction inf){  // data in string represents single transaction packed into a single string
     previousHash = prevHash;
     data = inf;
     creationtime = timestamp;
@@ -35,32 +34,21 @@ public:
   // get current string
   string getBlockHash();
 
-  // returns the index of a block
-  int index();
-
   bool hashCheck(); // to prevent malicious use check if hashes are valid
 
   void mine(int difficulty);
 };
 
-class Blockchain {
-private:
-  /* data */
-  void Genesis(); // genesis block (fisrt block on a blockchain)
-  vector<Block> mainchain; // vector to hold chain, alternatively define double linked list with no insertion in the middle
-                          // however I still find vectors are better suited for the task unless specifi custom features are needed
+
+class Transaction {
 public:
-  Blockchain ();
+  Transaction (int val, string s, string r);
+  string senderKey = s;
+  string receiverKey = r;
+  int value = v;
+  string compressOut(){
+    return(senderKey+receiverKey+ to_string(value)); // outputs contents of a transaction in a single string
+  }
 
-  vector<Block> chain(); // returns the blockchain
-
-  bool checkChain(); // checks if blockchain is valid
-
-  void displayChain(); // displays the blockchain
-
-  Block lastEntry(); // returns last block
-
-  void newBlock(Block b); // adds a new block
-
-  //virtual ~Blockchain ();
+  //virtual ~Transaction ();
 };

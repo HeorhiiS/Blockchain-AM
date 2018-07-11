@@ -3,6 +3,7 @@
 #include <ctime>
 #include <vector>
 #include "BlockchainClasses.hpp"
+#include "BlockchainClass.hpp"
 
 
 // function declarations go here
@@ -10,13 +11,8 @@
 using namespace std;
 
 void Block::printBlock(){
-  cout <<index<< '\n';
   cout <<creationtime<< '\n';
   cout <<previousHash<< '\n';
-}
-
-int Block::index(){
-  return index;
 }
 
 string Block::getPrevHash(){
@@ -40,14 +36,14 @@ void Block::mine(int difficulty) {
 }
 
 string Block::computeHash(){
-string src_str = (to_string(index)+data+creationtime+previousHash+to_string(nonce));
+string src_str = (data.compressOut()+creationtime+previousHash+to_string(nonce));
 string hash_hex_str;
 picosha2::hash256_hex_string(src_str, hash_hex_str);
 return hash_hex_str;
 }
 
 void Blockchain::Genesis(){
-  Block genesis = Block(0,"0","7/11/2018","Genesis");
+  Block genesis = Block("0","7/11/2018","Genesis");
   mainchain.push_back(genesis);
 }
 
@@ -66,7 +62,7 @@ Block Blockchain::lastEntry(){
 
 void Blockchain::newBlock(Block b){
   b.previousHash = lastEntry().blockHash;
-  b.blockHash = b.computeHash();
+  b.mine(difficulty);
   mainchain.push_back(b);
 }
 
@@ -93,10 +89,10 @@ void Blockchain::displayChain(){
   for (int i = 1; i < mainchain.size(); i++) {
     Block spotlight  = mainchain[i];
     std::cout <<"######################################" << '\n';
-    std::cout <<"INDEX:"<<spotlight.index << '\n';
+    std::cout <<"INDEX:"<<i<< '\n';
     std::cout <<"TIMESTAMP:"<<spotlight.creationtime<< '\n';
     std::cout <<"PREVIOUS HASH:"<<spotlight.previousHash<< '\n';
-    std::cout <<"TRANSACTION:"<<spotlight.data<< '\n';
+    std::cout <<"TRANSACTION:"<<spotlight.data.compressOut()<< '\n';
     std::cout <<"#######################################"<< '\n';
     std::cout << "  @@" << '\n';
     std::cout << "  @@" << '\n';
