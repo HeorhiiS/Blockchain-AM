@@ -16,15 +16,15 @@ private:
   string previousHash;
   string creationtime;
   string computeHash();
-  Transaction data;
+  vector<Transaction> transactions;
   string blockHash = computeHash();
   int nonce= 0;
   friend class Blockchain;
 
 public:
-  Block (string prevHash, string timestamp, Transaction inf){  // data in string represents single transaction packed into a single string
+  Block (string prevHash, string timestamp, vector<Transaction> t;){  // data in string represents single transaction packed into a single string
     previousHash = prevHash;
-    data = inf;
+    transactions = t;
     creationtime = timestamp;
   }
 

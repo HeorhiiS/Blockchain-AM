@@ -103,3 +103,16 @@ void Blockchain::displayChain(){
   }
 
 }
+
+/*
+ERASE newBlock()
+
+
+
+
+
+
+
+
+
+*/
